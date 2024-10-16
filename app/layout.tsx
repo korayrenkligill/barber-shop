@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/theme-provider";
 import localFont from "next/font/local";
 import "./globals.css";
+import Header from "@/components/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +28,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <div className="flex-1">{children}</div>
+          <footer className="bg-zinc-800 text-white text-center p-2">
+            <p>
+              &copy; {new Date().getFullYear()} Koray Renkligil. Tüm hakları
+              saklıdır.
+            </p>
+          </footer>
+        </ThemeProvider>
       </body>
     </html>
   );

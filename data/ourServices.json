@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Saç Kesimi",
+    "description": "Saç kesimi kısa metinsel açıklama",
+    "resim": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHbY5sECTUmPFyfRqQGOZb_mWDEScOXNi5qg&s"
+  },
+  {
+    "id": 2,
+    "title": "Sakal Kesimi",
+    "description": "Sakal kesimi kısa metinsel açıklama",
+    "resim": "https://i.pinimg.com/236x/a5/b2/aa/a5b2aaa6ede8af0e88c60a6fa93bf8ca.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Bıyık Kesimi",
+    "description": "Bıyık kesimi kısa metinsel açıklama",
+    "resim": "https://placehold.co/400x600"
+  },
+  {
+    "id": 4,
+    "title": "Cart curt Kesimi",
+    "description": "Saç kesimi kısa metinsel açıklama",
+    "resim": "https://placehold.co/400x600"
+  },
+  {
+    "id": 5,
+    "title": "cirt curt Kesimi",
+    "description": "Saç kesimi kısa metinsel açıklama",
+    "resim": "https://placehold.co/400x600"
+  },
+  {
+    "id": 5,
+    "title": "Zart Zurt Kesimi",
+    "description": "Saç kesimi kısa metinsel açıklama",
+    "resim": "https://placehold.co/400x600"
+  }
+]

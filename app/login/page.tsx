@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const Router = useRouter();
   return (
     <div className="container mx-auto px-2 pt-4">
@@ -31,4 +31,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

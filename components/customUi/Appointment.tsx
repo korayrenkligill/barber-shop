@@ -32,8 +32,6 @@ import { Textarea } from "../ui/textarea";
 
 import { IoClose, IoAdd } from "react-icons/io5";
 
-type Props = {};
-
 const generateTimeSlots = (start: string, end: string): string[] => {
   const startHour = parseInt(start.split(":")[0]);
   const endHour = parseInt(end.split(":")[0]);
@@ -49,7 +47,7 @@ const generateTimeSlots = (start: string, end: string): string[] => {
   return timeSlots;
 };
 
-const Appointment = (props: Props) => {
+const Appointment = () => {
   const [appointmentState, setAppointmentState] = useState(false);
   const [date, setDate] = React.useState<Date>();
   const timeSlots = generateTimeSlots("12:00", "22:00");
@@ -108,8 +106,9 @@ const Appointment = (props: Props) => {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="flex flex-wrap gap-2">
-            {services.map((service) => (
+            {services.map((service, index) => (
               <Label
+                key={index}
                 htmlFor={`id-${service.id}`}
                 className={`flex flex-col justify-end border rounded-xl select-none cursor-pointer ${
                   selectedServices.includes(service.title) && "border-teal-500"
@@ -162,8 +161,8 @@ const Appointment = (props: Props) => {
           </Popover>
           {date && (
             <div className="grid grid-cols-4 gap-2 p-2">
-              {timeSlots.map((timeSlot) => (
-                <>
+              {timeSlots.map((timeSlot, index) => (
+                <div key={index}>
                   <Checkbox
                     key={timeSlot}
                     id={`id-${timeSlot}`}
@@ -177,7 +176,7 @@ const Appointment = (props: Props) => {
                   >
                     {timeSlot}
                   </Label>
-                </>
+                </div>
               ))}
             </div>
           )}

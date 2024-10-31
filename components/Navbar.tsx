@@ -1,9 +1,7 @@
 import React from "react";
 import NavLink from "./customUi/NavLink";
 
-type Props = {};
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   return (
     <div className="absolute bottom-0 left-0 w-full flex flex-wrap items-center justify-center bg-stone-800/50 p-2 gap-2">
       <NavLink

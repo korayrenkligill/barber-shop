@@ -2,15 +2,13 @@ import React from "react";
 import AdditionalService from "./AdditionalService";
 import { LuBookmarkPlus } from "react-icons/lu";
 
-type Props = {};
-
 type AdditionalServiceType = {
   icon: React.ReactNode;
   title: string;
   description: string;
 };
 
-const AdditionalServices = (props: Props) => {
+const AdditionalServices = () => {
   const additionalServices: AdditionalServiceType[] = [
     {
       icon: <LuBookmarkPlus />,

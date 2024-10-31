@@ -5,9 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   const router = useRouter();
   return (
     <div className="container mx-auto px-2 pt-4">

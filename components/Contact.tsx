@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-const Contact = (props: Props) => {
+const Contact = () => {
   return (
     <div className="container mx-auto px-2 py-16 flex flex-col items-center justify-center gap-4">
       <div>

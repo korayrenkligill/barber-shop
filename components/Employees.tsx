@@ -1,8 +1,6 @@
 import React from "react";
 import Worker from "./Worker";
 
-type Props = {};
-
 export type WorkerType = {
   name: string;
   surname: string;
@@ -12,7 +10,7 @@ export type WorkerType = {
   instagram?: string;
 };
 
-const Employees = (props: Props) => {
+const Employees = () => {
   const workers: WorkerType[] = [
     {
       name: "Ali",

@@ -6,9 +6,7 @@ import ThemeToggle from "./ThemeToggle";
 
 import "../styles/fonts.css";
 
-type Props = {};
-
-const Header = (props: Props) => {
+const Header = () => {
   return (
     <div
       className={`min-h-[50vh] flex flex-col items-center justify-center relative`}

@@ -37,7 +37,7 @@ const Contact = (props: Props) => {
         </p>
       </div>
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d192.62378931640555!2d29.987722992026324!3d39.424562487854786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c9476382a376e9%3A0x7c68ec2407b9735f!2sColombia%20Coffee%20K%C3%BCtahya!5e0!3m2!1str!2str!4v1728309709781!5m2!1str!2str"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3081.9893802029246!2d29.9877219!3d39.424364600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c949c79318d14d%3A0xde1e1274031c8b09!2sBARBERIA!5e0!3m2!1str!2str!4v1729904519848!5m2!1str!2str"
         style={{ border: "0" }}
         allowFullScreen={true}
         loading="lazy"

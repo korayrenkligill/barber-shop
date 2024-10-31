@@ -3,6 +3,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
+import { format, set } from "date-fns";
+import { cn } from "@/lib/utils";
+
+import services from "@/data/ourServices.json";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,8 +18,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "../ui/label";
+import { Calendar as CalendarIcon } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import AppointmentDateComparison from "@/utils/dateComparison";
+import { Textarea } from "../ui/textarea";
+
+import { IoClose, IoAdd } from "react-icons/io5";
 
 type Props = {};
 
@@ -35,20 +51,40 @@ const generateTimeSlots = (start: string, end: string): string[] => {
 
 const Appointment = (props: Props) => {
   const [appointmentState, setAppointmentState] = useState(false);
+  const [date, setDate] = React.useState<Date>();
   const timeSlots = generateTimeSlots("12:00", "22:00");
-  const [selectedSlots, setSelectedSlots] = useState<string[]>([]); // Seçilen zaman dilimlerini tutacak state
-  // Checkbox'ların durumunu değiştiren fonksiyon
-  const handleCheckboxChange = (timeSlot: string) => {
+  const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [note, setNote] = useState<string>("");
+  const handleSlotsChange = (timeSlot: string) => {
     setSelectedSlots((prev) => {
       if (prev.includes(timeSlot)) {
-        // Zaten seçili ise kaldır
         return prev.filter((slot) => slot !== timeSlot);
       } else {
-        // Seçili değilse ekle
         return [...prev, timeSlot];
       }
     });
   };
+
+  const handleServicesChange = (serviceTitle: string) => {
+    setSelectedServices((prev) => {
+      if (prev.includes(serviceTitle)) {
+        return prev.filter((_serviceTitle) => _serviceTitle !== serviceTitle);
+      } else {
+        return [...prev, serviceTitle];
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    const dateNow = new Date();
+    setSelectedSlots([]);
+    if (date && AppointmentDateComparison(date, dateNow)) {
+      console.log("büyük");
+    } else {
+      setDate(undefined);
+    }
+  }, [date]);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -71,29 +107,86 @@ const Appointment = (props: Props) => {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 gap-2">
-            {timeSlots.map((timeSlot) => (
-              <div>
+          <div className="flex flex-wrap gap-2">
+            {services.map((service) => (
+              <Label
+                htmlFor={`id-${service.id}`}
+                className={`flex flex-col justify-end border rounded-xl select-none cursor-pointer ${
+                  selectedServices.includes(service.title) && "border-teal-500"
+                }`}
+              >
                 <Checkbox
-                  key={timeSlot}
-                  id="timeSlot"
-                  checked={selectedSlots.includes(timeSlot)} // Seçili olup olmadığını kontrol et
-                  onChange={() => handleCheckboxChange(timeSlot)} // Değişim olayını yönet
+                  key={service.id}
+                  id={`id-${service.id}`}
+                  checked={selectedServices.includes(service.title)} // Seçili olup olmadığını kontrol et
+                  onCheckedChange={() => handleServicesChange(service.title)} // Değişim olayını yönet
+                  className="hidden"
                 />
-                <Label htmlFor="timeSlot">{timeSlot}</Label>
-              </div>
+
+                <div className="p-2 text-white text-xs font-semibold text-center flex items-center justify-center gap-2">
+                  {service.title}
+                  <span className="scale-150">
+                    {selectedServices.includes(service.title) ? (
+                      <IoClose />
+                    ) : (
+                      <IoAdd />
+                    )}
+                  </span>
+                </div>
+              </Label>
             ))}
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Input id="name" placeholder="İsim" className="col-span-4" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Input
-              id="phone"
-              placeholder="Telefon Numarası"
-              className="col-span-4"
-            />
-          </div>
+          <Input id="name" placeholder="İsim" />
+          <Input id="phone" placeholder="Telefon Numarası" />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  " justify-start text-left font-normal",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon />
+                {date ? format(date, "PPP") : <span>Randevu Günü</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          {date && (
+            <div className="grid grid-cols-4 gap-2 p-2">
+              {timeSlots.map((timeSlot) => (
+                <>
+                  <Checkbox
+                    key={timeSlot}
+                    id={`id-${timeSlot}`}
+                    checked={selectedSlots.includes(timeSlot)} // Seçili olup olmadığını kontrol et
+                    onCheckedChange={() => handleSlotsChange(timeSlot)} // Değişim olayını yönet
+                    className="cursor-pointer"
+                  />
+                  <Label
+                    htmlFor={`id-${timeSlot}`}
+                    className="ml-2 cursor-pointer"
+                  >
+                    {timeSlot}
+                  </Label>
+                </>
+              ))}
+            </div>
+          )}
+          <Textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Not"
+            className="resize-none"
+          />
         </div>
         <DialogFooter>
           <Button type="submit">Randevu Al</Button>

@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,11 +39,14 @@ export default function RootLayout({
         >
           <Header />
           <div className="flex-1">{children}</div>
-          <footer className="bg-zinc-800 text-white text-center p-2">
+          <footer className="flex flex-col gap-1 items-center bg-zinc-800 text-white text-center p-2">
             <p>
               &copy; {new Date().getFullYear()} Koray Renkligil. Tüm hakları
               saklıdır.
             </p>
+            <Link className="text-start" href="/login">
+              Yönetim Paneli
+            </Link>
           </footer>
         </ThemeProvider>
       </body>

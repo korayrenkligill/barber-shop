@@ -38,16 +38,6 @@ export default function Services() {
                   backgroundPosition: "center",
                 }}
               >
-                {/* <img
-                  className="w-full max-h-[200px] rounded-xl"
-                  src={service.resim}
-                  alt={service.title}
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    overflow: "hidden",
-                  }}
-                /> */}
                 <div className="bg-black/60 p-2 text-white">
                   <h3 className="text-xl font-semibold text-center mt-2">
                     {service.title}

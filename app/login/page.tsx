@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 const page = () => {
-  const router = useRouter();
+  const Router = useRouter();
   return (
     <div className="container mx-auto px-2 pt-4">
       <form
@@ -22,7 +22,7 @@ const page = () => {
         <Button
           type="button"
           variant="ghost"
-          onClick={() => router.push("/register")}
+          onClick={() => Router.push("/register")}
         >
           Kayıt Ol
         </Button>

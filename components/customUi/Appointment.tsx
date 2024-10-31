@@ -3,7 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 import services from "@/data/ourServices.json";
@@ -48,7 +48,7 @@ const generateTimeSlots = (start: string, end: string): string[] => {
 };
 
 const Appointment = () => {
-  const [appointmentState, setAppointmentState] = useState(false);
+  const [appointmentState] = useState(false);
   const [date, setDate] = React.useState<Date>();
   const timeSlots = generateTimeSlots("12:00", "22:00");
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);

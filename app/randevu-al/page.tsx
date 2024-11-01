@@ -62,8 +62,8 @@ const Page = () => {
   return (
     <div className="container mx-auto px-2 py-8">
       <header>
-        <h1>Randevu Al</h1>
-        <p>
+        <h1 className="text-3xl font-semibold">Randevu Al</h1>
+        <p className="text-zinc-400">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae,
           non!
         </p>
@@ -86,7 +86,7 @@ const Page = () => {
                 className="hidden"
               />
 
-              <div className="p-2 text-white text-xs font-semibold text-center flex items-center justify-center gap-2">
+              <div className="p-2 text-zinc-950 dark:text-zinc-50 text-xs font-semibold text-center flex items-center justify-center gap-2">
                 {service.title}
                 <span className="scale-150">
                   {selectedServices.includes(service.title) ? (
@@ -124,7 +124,7 @@ const Page = () => {
           </PopoverContent>
         </Popover>
         {date && (
-          <div className="grid grid-cols-4 gap-2 p-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-2">
             {timeSlots.map((timeSlot, index) => (
               <div key={index}>
                 <Checkbox
@@ -149,10 +149,11 @@ const Page = () => {
           onChange={(e) => setNote(e.target.value)}
           placeholder="Not"
           className="resize-none"
+          rows={8}
         />
-      </div>
-      <div>
-        <Button type="submit">Randevu Al</Button>
+        <Button type="submit" className="w-full">
+          Randevu Al
+        </Button>
       </div>
     </div>
   );

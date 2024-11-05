@@ -1,56 +1,20 @@
+"use client";
+
 import React from "react";
 import AdditionalService from "./AdditionalService";
-import { LuBookmarkPlus } from "react-icons/lu";
+import { ServiceType } from "@/types/servicesServiceTypes";
 
-type AdditionalServiceType = {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
+type Props = {
+  services: ServiceType[];
 };
 
-const AdditionalServices = () => {
-  const additionalServices: AdditionalServiceType[] = [
-    {
-      icon: <LuBookmarkPlus />,
-      title: "Ek Servis",
-      description: "Ek Servis kısa metinsel acıklama",
-    },
-    {
-      icon: <LuBookmarkPlus />,
-      title: "Ek Servis",
-      description: "Ek Servis kısa metinsel acıklama",
-    },
-    {
-      icon: <LuBookmarkPlus />,
-      title: "Ek Servis",
-      description: "Ek Servis kısa metinsel acıklama",
-    },
-    {
-      icon: <LuBookmarkPlus />,
-      title: "Ek Servis",
-      description: "Ek Servis kısa metinsel acıklama",
-    },
-    {
-      icon: <LuBookmarkPlus />,
-      title: "Ek Servis",
-      description: "Ek Servis kısa metinsel acıklama",
-    },
-    {
-      icon: <LuBookmarkPlus />,
-      title: "Ek Servis",
-      description: "Ek Servis kısa metinsel acıklama",
-    },
-  ];
+const AdditionalServices = ({ services }: Props) => {
+  if (services.length === 0) return <></>;
   return (
     <div className="bg-zinc-50 dark:bg-zinc-800 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 container mx-auto p-4 gap-2">
-        {additionalServices.map((additionalService) => (
-          <AdditionalService
-            key={additionalService.title}
-            icon={additionalService.icon}
-            title={additionalService.title}
-            description={additionalService.description}
-          />
+        {services.map((additionalService: ServiceType, index) => (
+          <AdditionalService key={index} service={additionalService} />
         ))}
       </div>
     </div>

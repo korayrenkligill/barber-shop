@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Link from "next/link";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,11 +46,9 @@ export default function RootLayout({
               &copy; {new Date().getFullYear()} Koray Renkligil. Tüm hakları
               saklıdır.
             </p>
-            <Link className="text-start" href="/login">
-              Yönetim Paneli
-            </Link>
           </footer>
         </ThemeProvider>
+        <ToastContainer />
       </body>
     </html>
   );

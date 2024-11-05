@@ -2,7 +2,11 @@
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 const Appointment = () => {
+  const pathname = usePathname();
+  if (pathname === "/randevu-al") return null;
   return (
     <Link
       href="/randevu-al"

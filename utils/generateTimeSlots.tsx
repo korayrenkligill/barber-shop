@@ -1,13 +1,38 @@
-export const generateTimeSlots = (start: string, end: string): string[] => {
-  const startHour = parseInt(start.split(":")[0]);
-  const endHour = parseInt(end.split(":")[0]);
+export const generateTimeSlots = (
+  start: string,
+  end: string,
+  interval: number
+): string[] => {
+  const [startHour, startMinute] = start.split(":").map(Number);
+  const [endHour, endMinute] = end.split(":").map(Number);
 
   const timeSlots: string[] = [];
+  let currentHour = startHour;
+  let currentMinute = startMinute;
 
-  for (let hour = startHour; hour < endHour; hour++) {
-    const formattedStart = `${hour.toString().padStart(2, "0")}:00`;
-    const formattedEnd = `${(hour + 1).toString().padStart(2, "0")}:00`;
-    timeSlots.push(`${formattedStart} - ${formattedEnd}`);
+  while (
+    currentHour < endHour ||
+    (currentHour === endHour && currentMinute < endMinute)
+  ) {
+    const formattedStart = `${currentHour
+      .toString()
+      .padStart(2, "0")}:${currentMinute.toString().padStart(2, "0")}`;
+
+    currentMinute += interval;
+    if (currentMinute >= 60) {
+      currentMinute -= 60;
+      currentHour += 1;
+    }
+
+    if (
+      currentHour < endHour ||
+      (currentHour === endHour && currentMinute <= endMinute)
+    ) {
+      const formattedEnd = `${currentHour
+        .toString()
+        .padStart(2, "0")}:${currentMinute.toString().padStart(2, "0")}`;
+      timeSlots.push(`${formattedStart} - ${formattedEnd}`);
+    }
   }
 
   return timeSlots;

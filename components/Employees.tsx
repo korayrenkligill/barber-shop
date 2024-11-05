@@ -1,5 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import Worker from "./Worker";
+import { ApiStaff } from "@/services/userService";
+import { UserType } from "@/types/globalTypes";
 
 export type WorkerType = {
   name: string;
@@ -32,11 +36,22 @@ const Employees = () => {
       instagram: "@ayse_styles",
     },
   ];
+  const [employees, setEmployees] = React.useState<UserType[]>([]);
+
+  const GetEmployees = async () => {
+    await ApiStaff()
+      .then((res) => setEmployees(res))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    GetEmployees();
+  }, []);
   return (
     <div className="container mx-auto px-2 py-16">
       <div className="flex flex-col gap-2">
-        {workers.map((worker, i) => {
-          return <Worker key={i} worker={worker} />;
+        {employees.map((employee, i) => {
+          return <Worker key={i} worker={employee} />;
         })}
       </div>
     </div>

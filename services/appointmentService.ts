@@ -1,6 +1,5 @@
-import { appointmentPaths, authPaths } from "@/data/apiUrls";
+import { appointmentPaths } from "@/data/apiUrls";
 import apiClient from "../utils/apiClient";
-import { LoginReq } from "@/types/authServiceTypes";
 import {
   AppointmentsResp,
   CreateAppointmentReq,

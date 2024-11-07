@@ -11,3 +11,11 @@ export interface ServiceType {
   serviceType?: ServiceModelType;
   __v: number;
 }
+
+export interface ServiceCreateType {
+  name: string;
+  duration: number;
+  price: number;
+  description: string;
+  serviceType: ServiceModelType;
+}

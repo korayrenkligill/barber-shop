@@ -29,10 +29,8 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Kullanıcıyı login sayfasına yönlendir
-      window.location.href = "/login";
+      // TODO: window.location.href = "/login";
     }
-    // Hatalar için özelleştirilmiş bir işlem alanı
     return Promise.reject(error);
   }
 );

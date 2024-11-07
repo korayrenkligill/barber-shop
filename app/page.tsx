@@ -18,7 +18,9 @@ export default function Home() {
         setAdditionalServices(
           res.filter((item: ServiceType) => item?.serviceType == "additional")
         );
-        setServices(res);
+        setServices(
+          res.filter((item: ServiceType) => item?.serviceType == "main")
+        );
       })
       .catch((err) => console.log(err));
   };

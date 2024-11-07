@@ -30,6 +30,7 @@ export interface AppointmentsResp {
   updatedAt: string;
   __v: number;
   _id: string;
+  paymentId?: string;
 }
 
 export interface UpdateAppointmentReq {

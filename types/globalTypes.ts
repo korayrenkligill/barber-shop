@@ -12,3 +12,8 @@ export interface UserType {
   updatedAt?: string;
   __v?: number;
 }
+
+export interface UpdateRoleType {
+  userId: string;
+  role: string;
+}

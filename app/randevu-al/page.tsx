@@ -34,8 +34,11 @@ import { ServiceType } from "@/types/servicesServiceTypes";
 import Divider from "@/components/Divider";
 import { AppointmentsResp } from "@/types/appointmentServiceTypes";
 import { ApiCreatePayment } from "@/services/paymentsService";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
+
   const [date, setDate] = React.useState<Date>();
   const timeSlots = generateTimeSlots("10:00", "22:00", 45);
   const [selectedSlots, setSelectedSlots] = useState<string>("");
@@ -76,17 +79,6 @@ const Page = () => {
     });
   };
 
-  const AddPayment = async (id: string, amount: number) => {
-    await ApiCreatePayment({
-      appointment: id,
-      amount: amount,
-      method: "cash",
-      status: "pending",
-    }).catch((error) => {
-      console.log(error);
-    });
-  };
-
   const handleSubmit = async () => {
     if (!selectedStaff) {
       toast.error("Randevu olusturabilmek icin bir kuaför secmelisiniz");
@@ -123,11 +115,12 @@ const Page = () => {
       status: "pending",
     }).then((res) => {
       toast.success("Randevu olusturuldu");
-      const totalPrice = services
-        .filter((service) => res.serviceId.includes(service._id))
-        .reduce((total, service) => total + service.price, 0);
+      router.push("/");
+      // const totalPrice = services
+      //   .filter((service) => res.serviceId.includes(service._id))
+      //   .reduce((total, service) => total + service.price, 0);
 
-      AddPayment(res._id, totalPrice);
+      // AddPayment(res._id, totalPrice);
     });
   };
 

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import SidebarItem from "./SidebarItem";
 import { usePathname, useRouter } from "next/navigation";
+import { IoMenu } from "react-icons/io5";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,17 +27,17 @@ const Sidebar = () => {
     {
       title: "Servisler",
       items: [
-        { name: "Servisleri Listele", path: "/admin/2" },
-        { name: "Servis Oluştur", path: "/admin/2" },
+        { name: "Servisleri Listele", path: "/admin/tum-servisler" },
+        { name: "Servis Oluştur", path: "/admin/servis-olustur" },
       ],
     },
     {
       title: "Kullanıcılar",
-      items: [{ name: "Kullanıcıları Listele", path: "/admin/2" }],
+      items: [{ name: "Kullanıcıları Listele", path: "/admin/kullanicilar" }],
     },
     {
       title: "Ayarlar",
-      items: [{ name: "Sayfa Ayarları", path: "/admin/2" }],
+      items: [{ name: "Sayfa Ayarları", path: "/admin/ayarlar" }],
     },
   ];
 
@@ -44,10 +45,10 @@ const Sidebar = () => {
     <div>
       {/* Toggle button */}
       <button
-        className="block absolute top-0 left-0 md:relative md:hidden p-2 bg-gray-800 text-white"
+        className="block fixed bottom-2 left-2 md:relative md:hidden p-3 bg-blue-500 text-white text-xl rounded-full"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? "Kapat" : "Menü"}
+        <IoMenu />
       </button>
 
       {/* Sidebar */}

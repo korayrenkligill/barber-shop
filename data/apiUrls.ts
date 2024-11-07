@@ -17,7 +17,7 @@ export const servicePaths = {
   allServices: "services/all",
   service: "services",
   update: "services/update",
-  delete: "services/delete",
+  delete: "services",
   create: "services/create",
 };
 

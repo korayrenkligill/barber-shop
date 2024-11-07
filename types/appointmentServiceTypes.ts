@@ -31,3 +31,13 @@ export interface AppointmentsResp {
   __v: number;
   _id: string;
 }
+
+export interface UpdateAppointmentReq {
+  customerId?: string;
+  staffId?: string;
+  serviceId?: string[];
+  date?: string;
+  time?: string;
+  status?: string;
+  notes?: string;
+}

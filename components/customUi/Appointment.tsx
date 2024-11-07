@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 const Appointment = () => {
   const pathname = usePathname();
-  if (pathname === "/randevu-al") return null;
+  if (pathname === "/randevu-al" || pathname.includes("admin")) return null;
   return (
     <Link
       href="/randevu-al"

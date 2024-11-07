@@ -13,14 +13,14 @@ const Sidebar = () => {
       title: "İstatistikler",
       items: [
         { name: "Tüm Ödemeler", path: "/admin" },
-        { name: "Aylık Gelir", path: "/admin/1" },
+        { name: "Aylık Gelir", path: "/admin/aylik-gelir" },
       ],
     },
     {
       title: "Randevu İşlemleri",
       items: [
-        { name: "Randevuları Listele", path: "/admin/2" },
-        { name: "Randevu Oluştur", path: "/admin/2" },
+        { name: "Randevuları Listele", path: "/admin/randevular" },
+        { name: "Randevu Oluştur", path: "/admin/randevu-olustur" },
       ],
     },
     {
@@ -44,7 +44,7 @@ const Sidebar = () => {
     <div>
       {/* Toggle button */}
       <button
-        className="block md:hidden p-2 bg-gray-800 text-white"
+        className="block absolute top-0 left-0 md:relative md:hidden p-2 bg-gray-800 text-white"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? "Kapat" : "Menü"}

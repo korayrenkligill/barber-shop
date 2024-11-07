@@ -45,7 +45,6 @@ const Page = () => {
   const [phone, setPhone] = useState<string>("");
   const [note, setNote] = useState<string>("");
 
-  const [user, setUser] = useState<UserType | null>(null);
   const [services, setServices] = useState<ServiceType[]>([]);
   const [staff, setStaff] = useState<UserType[] | null>([]);
   const [appointments, setAppointments] = useState<AppointmentsResp[]>([]);
@@ -112,8 +111,8 @@ const Page = () => {
     const localISOTime = new Date(
       selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000
     ).toISOString();
+    console.log(localISOTime);
     await ApiCreateAppointment({
-      ...(user?._id && { customerId: user._id }),
       staffId: selectedStaff ?? "",
       serviceId: selectedServices ?? [],
       name: name ?? "",
@@ -128,14 +127,6 @@ const Page = () => {
         .reduce((total, service) => total + service.price, 0);
 
       AddPayment(res._id, totalPrice);
-    });
-  };
-
-  const GetProfile = async () => {
-    await ApiGetProfile().then((res) => {
-      setUser(res);
-      setName(res.name);
-      setPhone(res.phone);
     });
   };
 
@@ -156,7 +147,6 @@ const Page = () => {
     dateNow.setHours(0, 0, 0, 0);
     setSelectedSlots("");
     if (date && AppointmentDateComparison(date, dateNow)) {
-      console.log("büyük");
     } else {
       setDate(undefined);
     }
@@ -166,7 +156,6 @@ const Page = () => {
   }, [selectedStaff]);
 
   React.useEffect(() => {
-    if (localStorage.getItem("AccessToken")) GetProfile();
     GetServices();
     GetStaff();
     GetAppointments();
@@ -174,12 +163,7 @@ const Page = () => {
   return (
     <div className="container mx-auto px-2 py-8">
       <header className="text-center">
-        <h1 className="text-3xl font-semibold">Randevu Al</h1>
-        <p className="text-zinc-400">
-          Size uygun hizmeti ve zamanı seçerek randevunuzu kolayca oluşturun.
-          Bilgilerinizi doldurun ve en iyi deneyim için randevunuzu hemen
-          ayırtın.
-        </p>
+        <h1 className="text-3xl font-semibold">Randevu Oluştur</h1>
       </header>
       <div className="grid gap-2 py-4">
         <div className="flex flex-col gap-2">
@@ -250,14 +234,12 @@ const Page = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="İsim"
-          disabled={user ? true : false}
         />
         <Input
           id="phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Telefon Numarası"
-          disabled={user ? true : false}
         />
         <Popover>
           <PopoverTrigger asChild>

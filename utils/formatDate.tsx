@@ -1,4 +1,4 @@
-export default function TimeAgoInTurkish(isoDate: string): string {
+export function TimeAgoInTurkish(isoDate: string): string {
   const now = new Date();
   const pastDate = new Date(isoDate);
   const differenceInSeconds = Math.floor(
@@ -34,3 +34,17 @@ export default function TimeAgoInTurkish(isoDate: string): string {
   const differenceInYears = Math.floor(differenceInMonths / 12);
   return `${differenceInYears} yıl önce`;
 }
+
+export const formatDate = (isoDateString: string): string => {
+  const date = new Date(isoDateString);
+  date.setHours(date.getHours() - 3);
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Aylar 0'dan başlar, bu yüzden 1 ekliyoruz
+  const year = date.getFullYear();
+
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+};

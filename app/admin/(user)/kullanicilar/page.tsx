@@ -67,13 +67,15 @@ const UserList: React.FC = () => {
                 >
                   <FaRegEdit />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleDelete(user._id)}
-                >
-                  <FaTrashAlt />
-                </Button>
+                {!user.isAdmin && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDelete(user._id)}
+                  >
+                    <FaTrashAlt />
+                  </Button>
+                )}
               </div>
             </CardTitle>
           </CardHeader>

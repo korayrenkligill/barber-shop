@@ -21,3 +21,13 @@ export const ApiRegister = async (userData: RegisterReq) => {
     throw error;
   }
 };
+
+export const ApiLogout = async () => {
+  try {
+    const response = await apiClient.post(authPaths.logout);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user data", error);
+    throw error;
+  }
+};

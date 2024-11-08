@@ -4,11 +4,18 @@ import React, { useState } from "react";
 import SidebarItem from "./SidebarItem";
 import { usePathname, useRouter } from "next/navigation";
 import { IoMenu } from "react-icons/io5";
+import { ApiLogout } from "@/services/authService";
+import { toast } from "react-toastify";
+import { useSetAtom } from "jotai";
+import { userAtom } from "@/data/globalStorage";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
+  const setUser = useSetAtom(userAtom);
+
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
   const menuItems = [
     {
       title: "İstatistikler",
@@ -37,7 +44,19 @@ const Sidebar = () => {
     },
     {
       title: "Ayarlar",
-      items: [{ name: "Sayfa Ayarları", path: "/admin/ayarlar" }],
+      items: [
+        { name: "Sayfa Ayarları", path: "/admin/ayarlar" },
+        {
+          name: "Çıkış Yap",
+          onClick: async () => {
+            await ApiLogout().then(() => {
+              localStorage.removeItem("AccessToken");
+              setUser(null);
+              router.push("/");
+            });
+          },
+        },
+      ],
     },
   ];
 
@@ -68,7 +87,8 @@ const Sidebar = () => {
                 name={item.name}
                 isActive={pathname === item.path}
                 onClick={() => {
-                  router.push(item.path);
+                  if (item.path) router.push(item.path);
+                  if (item.onClick) item.onClick();
                   setIsOpen(false);
                 }}
               />

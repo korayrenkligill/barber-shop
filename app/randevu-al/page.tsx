@@ -74,7 +74,8 @@ const Page = () => {
         appointmentDate.toDateString() === date.toDateString() &&
         appointmentDate.getHours() === timeHour &&
         appointmentDate.getMinutes() === timeMinute &&
-        appointment.staffId._id === selectedStaff
+        appointment.staffId._id === selectedStaff &&
+        appointment.status !== "canceled"
       );
     });
   };

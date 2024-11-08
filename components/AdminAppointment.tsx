@@ -95,8 +95,8 @@ const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
     });
   };
 
-  const UpdatePayment = async (status: PaymentStatusType) => {
-    await ApiUpdatePayment(payment._id, {
+  const UpdatePayment = async (id: string, status: PaymentStatusType) => {
+    await ApiUpdatePayment(id, {
       status: status,
     }).catch((error) => {
       console.log(error);
@@ -118,9 +118,9 @@ const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
   const UpdateAsCompleted = async () => {
     await ApiUpdateAppointment(appointment._id, {
       status: "completed",
-    }).then((res) => {
+    }).then(async (res) => {
       toast.success("Randevu tamamlandı olarak işaretlendi");
-      if (res.paymentId) UpdatePayment("paid");
+      if (res.paymentId) await UpdatePayment(res.paymentId, "paid");
       GetAppointments();
     });
   };
@@ -139,7 +139,7 @@ const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
     await ApiUpdateAppointment(appointment._id, {
       status: `canceled`,
     }).then((res) => {
-      if (appointment.paymentId) UpdatePayment("failed");
+      if (res.paymentId) UpdatePayment(res.paymentId, "failed");
       toast.success("Randevu iptal edildi olarak işaretlendi");
       GetAppointments();
     });

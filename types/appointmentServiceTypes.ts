@@ -19,6 +19,7 @@ export interface CreateAppointmentReq {
 }
 
 export interface AppointmentsResp {
+  customerId?: UserType;
   appointmentDate: string;
   createdAt: string;
   name: string;

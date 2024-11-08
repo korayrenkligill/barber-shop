@@ -40,16 +40,24 @@ import {
   AppointmentStatusType,
 } from "@/types/appointmentServiceTypes";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
-import { PaymentMethodType, PaymentType } from "@/types/paymentServiceTypes";
-import { ApiUpdateAppointment } from "@/services/appointmentService";
+import {
+  PaymentMethodType,
+  PaymentStatusType,
+  PaymentType,
+} from "@/types/paymentServiceTypes";
+import {
+  ApiDeleteAppointment,
+  ApiUpdateAppointment,
+} from "@/services/appointmentService";
 import { toast } from "react-toastify";
 import {
   ApiCreatePayment,
+  ApiDeletePayment,
   ApiGetPayment,
   ApiUpdatePayment,
 } from "@/services/paymentsService";
-
+import { IoClose } from "react-icons/io5";
+import { BsExclamation } from "react-icons/bs";
 type Props = {
   appointment: AppointmentsResp;
   GetAppointments: () => Promise<void>;
@@ -70,8 +78,6 @@ const getBorderColor = (status: AppointmentStatusType) => {
   }
 };
 const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
-  const router = useRouter();
-
   const [paymentAmount, setPaymentAmount] = React.useState<number>(0);
   const [paymentMethod, setPaymentMethod] =
     React.useState<PaymentMethodType>("cash");
@@ -89,30 +95,52 @@ const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
     });
   };
 
-  const UpdatePayment = async () => {
+  const UpdatePayment = async (status: PaymentStatusType) => {
     await ApiUpdatePayment(payment._id, {
-      status: "paid",
+      status: status,
     }).catch((error) => {
       console.log(error);
     });
   };
 
-  const UpdateAsCompleted = async (id: string) => {
-    await ApiUpdateAppointment(id, {
+  const DeleteAppointment = async () => {
+    await ApiDeleteAppointment(appointment._id)
+      .then(() => {
+        toast.success("Randevu silindi");
+        ApiDeletePayment(appointment.paymentId);
+        GetAppointments();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const UpdateAsCompleted = async () => {
+    await ApiUpdateAppointment(appointment._id, {
       status: "completed",
     }).then((res) => {
       toast.success("Randevu tamamlandı olarak işaretlendi");
-      if (res.paymentId) UpdatePayment();
+      if (res.paymentId) UpdatePayment("paid");
       GetAppointments();
     });
   };
 
-  const UpdateAsConfirmed = async (id: string) => {
-    await ApiUpdateAppointment(id, {
+  const UpdateAsConfirmed = async () => {
+    await ApiUpdateAppointment(appointment._id, {
       status: "confirmed",
     }).then((res) => {
       toast.success("Randevu onaylandı olarak işaretlendi, ödeme oluşturuldu");
       AddPayment(res._id, paymentAmount);
+      GetAppointments();
+    });
+  };
+
+  const UpdateAsCanceled = async () => {
+    await ApiUpdateAppointment(appointment._id, {
+      status: `canceled`,
+    }).then((res) => {
+      if (appointment.paymentId) UpdatePayment("failed");
+      toast.success("Randevu iptal edildi olarak işaretlendi");
       GetAppointments();
     });
   };
@@ -144,13 +172,52 @@ const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
           {appointment.name}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push(`/admin/randevular/${appointment._id}`)}
-          >
-            <FaRegEdit />
-          </Button>
+          <div className="flex items-center gap-2">
+            {appointment.status !== "canceled" && (
+              <AlertDialog>
+                <AlertDialogTrigger className="p-1 text-lg border border-zinc-500 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors">
+                  <BsExclamation />
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Randevu İPTAL ediliyor emin misin?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Bu işlem geri alınamaz devam etmek istediğine emin misin?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>İptal</AlertDialogCancel>
+                    <AlertDialogAction onClick={UpdateAsCanceled}>
+                      Evet
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+            <AlertDialog>
+              <AlertDialogTrigger className="p-1 text-lg border border-zinc-500 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors">
+                <IoClose />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Randevu SİLİNYOR ediliyor emin misin?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Bu işlem geri alınamaz devam etmek istediğine emin misin?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>İptal</AlertDialogCancel>
+                  <AlertDialogAction onClick={DeleteAppointment}>
+                    Evet
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </CardTitle>
         <CardDescription>
           {formatDate(appointment.appointmentDate)}
@@ -182,9 +249,7 @@ const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
       <CardFooter>
         {appointment.status == "confirmed" && (
           <Button
-            onClick={() => {
-              UpdateAsCompleted(appointment._id);
-            }}
+            onClick={UpdateAsCompleted}
             variant="outline"
             className="w-full"
           >
@@ -232,25 +297,12 @@ const AdminAppointment = ({ appointment, GetAppointments }: Props) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>İptal</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => {
-                    UpdateAsConfirmed(appointment._id);
-                  }}
-                >
+                <AlertDialogAction onClick={UpdateAsConfirmed}>
                   Evet
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          //   <Button
-          //     onClick={() => {
-          //       UpdateAsConfirmed(appointment._id);
-          //     }}
-          //     variant="outline"
-          //     className="w-full"
-          //   >
-          //     Ödeme Oluştur
-          //   </Button>
         )}
       </CardFooter>
     </Card>

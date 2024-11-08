@@ -58,3 +58,15 @@ export const ApiUpdateAppointment = async (
     throw error;
   }
 };
+
+export const ApiDeleteAppointment = async (id: string) => {
+  try {
+    const response = await apiClient.delete(
+      `${appointmentPaths.delete}/?id=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user data", error);
+    throw error;
+  }
+};

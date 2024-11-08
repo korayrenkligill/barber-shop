@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import NavLink from "./customUi/NavLink";
-import { useAtomValue } from "jotai";
-import { userAtom } from "@/data/globalStorage";
 import { UserType } from "@/types/globalTypes";
 import { ApiGetProfile } from "@/services/userService";
+import { useAtom } from "jotai";
+import { userAtom } from "@/data/globalStorage";
 
 const Navbar = () => {
-  const [user, setUser] = useState<UserType | undefined>();
+  const [user, setUser] = useAtom<UserType | null>(userAtom);
 
   const GetProfile = async () => {
     await ApiGetProfile().then((res) => {

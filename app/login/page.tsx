@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ApiLogin } from "@/services/authService";
 import { useSetAtom } from "jotai";
-import { userAtom } from "@/data/globalStorage";
 import { toast } from "react-toastify";
+import { userAtom } from "@/data/globalStorage";
+import { ApiGetProfile } from "@/services/userService";
 
 const Page = () => {
   const router = useRouter();
@@ -22,8 +23,8 @@ const Page = () => {
       });
       if (resp.user) {
         localStorage.setItem("AccessToken", resp.user.token);
-        setUser(resp.user);
         toast.success("Başarıyla giriş yaptınız!");
+        await ApiGetProfile().then((res) => setUser(res));
         if (resp.user.role === "staff") router.push("/admin");
         else router.push("/");
       }

@@ -1,4 +1,3 @@
-import { globalStorage, userAtom } from "@/data/globalStorage";
 import axios from "axios";
 
 // Create an axios instance
@@ -14,8 +13,7 @@ const apiClient = axios.create({
 // Request interceptor
 apiClient.interceptors.request.use(
   (config) => {
-    const token =
-      localStorage.getItem("AccessToken") || globalStorage.get(userAtom)?.token;
+    const token = localStorage.getItem("AccessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

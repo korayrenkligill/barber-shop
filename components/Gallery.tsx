@@ -2,7 +2,6 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import classNames from "classnames";
-import { useInView } from "framer-motion";
 
 type ImageData = {
   src: string;
@@ -26,7 +25,6 @@ const ImageCard: React.FC<{
   setSelectedImage: React.Dispatch<React.SetStateAction<ImageData | null>>;
 }> = ({ image, index, setSelectedImage }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
 
   return (
     <div
@@ -36,8 +34,6 @@ const ImageCard: React.FC<{
         "relative overflow-hidden cursor-pointer transform hover:scale-105 transition-transform duration-300 h-[350px] rounded-2xl"
       )}
       style={{
-        transform: isInView ? "scale(1)" : "scale(.9)",
-        opacity: isInView ? 1 : 0,
         transition: "all 0.7s cubic-bezier(0.17, 0.55, 0.55, 1)",
       }}
       onClick={() => setSelectedImage(image)}

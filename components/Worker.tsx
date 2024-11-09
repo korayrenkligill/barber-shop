@@ -15,7 +15,7 @@ const Worker = ({ worker }: Props) => {
         //TODO : Add image
       }
       <img
-        src={"https://picsum.photos/256/256"}
+        src={"https://placehold.co/400x600"}
         alt={`${worker.name}`}
         className="max-w-64 md:max-w-96 w-full h-auto max-h-64 object-cover object-center rounded-xl"
       />

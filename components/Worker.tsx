@@ -1,8 +1,7 @@
 import React from "react";
 import { FaPhone } from "react-icons/fa";
-import { BiLogoInstagramAlt } from "react-icons/bi";
-import { WorkerType } from "./Employees";
 import { UserType } from "@/types/globalTypes";
+import { Skeleton } from "./ui/skeleton";
 
 type Props = {
   worker: UserType;

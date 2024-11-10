@@ -12,6 +12,7 @@ export default function Home() {
   const [additionalServices, setAdditionalServices] = React.useState<
     ServiceType[]
   >([]);
+  const [servicesLoading, setServicesLoading] = React.useState<boolean>(true);
   const GetServices = async () => {
     await ApiServices()
       .then((res) => {
@@ -21,6 +22,7 @@ export default function Home() {
         setServices(
           res.filter((item: ServiceType) => item?.serviceType == "main")
         );
+        setServicesLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -30,8 +32,11 @@ export default function Home() {
   }, []);
   return (
     <div>
-      <Services services={services} />
-      <AdditionalServices services={additionalServices} />
+      <Services services={services} loading={servicesLoading} />
+      <AdditionalServices
+        services={additionalServices}
+        loading={servicesLoading}
+      />
       <Employees />
       <Gallery />
       <Contact />

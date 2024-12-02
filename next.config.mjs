@@ -3,26 +3,27 @@ import withPWA from "next-pwa";
 /** @type {import('next').NextConfig} */
 const nextConfig = withPWA({
   dest: "public",
-  disable: process.env.NODE_ENV === "development", // Geliştirme sırasında devre dışı
-  register: true, // Service Worker otomatik kaydı
-  scope: "/", // Service Worker kapsamı
-  swDest: "service-worker.js", // Service Worker'ın oluşturulacağı yer
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  scope: "/",
+  swDest: "service-worker.js",
   runtimeCaching: [
+    // Statik sayfalar ve HTML içeriklerini önbelleğe al
     {
-      urlPattern: /^https:\/\/apihairdresser\.onrender\.com\/api\/.*$/i,
-      handler: "NetworkFirst",
+      urlPattern: /^\/(register|login|admin)/,
+      handler: "CacheFirst", // Öncelikli olarak önbelleği kontrol eder
       options: {
-        cacheName: "api-cache",
-        networkTimeoutSeconds: 10,
+        cacheName: "html-cache",
         expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 5 * 60,
+          maxEntries: 10,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 gün
         },
         cacheableResponse: {
-          statuses: [0, 200],
+          statuses: [200],
         },
       },
     },
+    // Tüm statik kaynakları (CSS, JS, resimler) önbelleğe al
     {
       urlPattern: /^\/_next\/static\/.*/i,
       handler: "StaleWhileRevalidate",
@@ -30,18 +31,23 @@ const nextConfig = withPWA({
         cacheName: "static-resources",
         expiration: {
           maxEntries: 100,
-          maxAgeSeconds: 7 * 24 * 60 * 60,
+          maxAgeSeconds: 7 * 24 * 60 * 60, // 7 gün
         },
       },
     },
+    // API çağrıları için önbellek
     {
-      urlPattern: /^\/(register|login|admin)/,
-      handler: "CacheFirst",
+      urlPattern: /^https:\/\/apihairdresser\.onrender\.com\/api\/.*$/i,
+      handler: "NetworkFirst", // Öncelikli olarak ağı kontrol eder, yoksa önbelleği kullanır
       options: {
-        cacheName: "pages-cache",
+        cacheName: "api-cache",
+        networkTimeoutSeconds: 10,
         expiration: {
-          maxEntries: 10,
-          maxAgeSeconds: 30 * 24 * 60 * 60,
+          maxEntries: 50,
+          maxAgeSeconds: 5 * 60, // 5 dakika
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
         },
       },
     },

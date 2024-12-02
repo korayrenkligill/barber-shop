@@ -38,7 +38,7 @@ export default function Home() {
         loading={servicesLoading}
       />
       <Employees />
-      <Gallery />
+      {/* <Gallery /> */}
       <Contact />
     </div>
   );

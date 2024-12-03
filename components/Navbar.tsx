@@ -37,14 +37,14 @@ const Navbar = () => {
       >
         Hakkımızda
       </NavLink>
-      <NavLink
+      {/* <NavLink
         href="/galeri"
         className="px-2 md:px-3 py-2"
         activeClassName="text-zinc-50"
         nonActiveClassName="text-zinc-400/60"
       >
         Galeri
-      </NavLink>
+      </NavLink> */}
       <NavLink
         href="/iletisim"
         className="px-2 md:px-3 py-2"

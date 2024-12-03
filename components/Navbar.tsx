@@ -43,7 +43,7 @@ const Navbar = () => {
         activeClassName="text-zinc-50"
         nonActiveClassName="text-zinc-400/60"
       >
-        Galeri
+        Galeris
       </NavLink> */}
       <NavLink
         href="/iletisim"

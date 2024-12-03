@@ -43,15 +43,11 @@ const Contact: React.FC = () => {
           <h3 className="text-2xl font-semibold text-center">
             Telefon Numaraları
           </h3>
-          <p className="text-center text-zinc-600 dark:text-zinc-400">
-            <Skeleton className="h-4 w-[250px]" />
-          </p>
+          <Skeleton className="h-4 w-[250px]" />
         </div>
         <div>
           <h3 className="text-2xl font-semibold text-center">Adres</h3>
-          <p className="text-center text-zinc-600 dark:text-zinc-400">
-            <Skeleton className="h-4 w-[250px]" />
-          </p>
+          <Skeleton className="h-4 w-[250px]" />
         </div>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d385.2487513625881!2d29.987478311703473!3d39.424350338120334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c949c79318d14d%3A0xde1e1274031c8b09!2sBARBERIA!5e0!3m2!1str!2str!4v1731002902482!5m2!1str!2str"
